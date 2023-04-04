@@ -39,5 +39,3 @@ Create a new order
                 ->setPlaceId('01007225')
             )
     ]));
-
-License (GitHub function can create LICENSE file)
