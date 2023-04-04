@@ -102,13 +102,6 @@ class SmartPostApiClient
    */
   public function createOrders(array $request): array
   {
-    print_r(json_encode([
-      'report' => [],
-      'item' => array_map(function (OrderCreateRequest $r) {
-        return $r->getValues();
-      }, $request)
-    ]));
-
     $res = [];
     foreach ($this->apiPost('orders', [],
       json_encode([
