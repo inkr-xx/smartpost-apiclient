@@ -15,7 +15,7 @@ $client = new SmartPost\SmartPostApiClient((new SmartPost\SmartPostApiClientConf
 ```
 List places
 ```php
-foreach ($client->getPlaces('EE', 'APT') as $place)
+foreach ($client->getPlaces('EE') as $place)
 {
     print_r($place);
 }

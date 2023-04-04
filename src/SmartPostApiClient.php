@@ -34,16 +34,16 @@ class SmartPostApiClient
 
   /**
    * @param string $country
-   * @param ?string $type
+   * @param array $types
    * @param ?string $filter
    * @return PlaceResponse[]
    */
-  public function getPlaces(string $country, string $type = null, string $filter = null): array
+  public function getPlaces(string $country, array $types = [], string $filter = null): array
   {
     $res = [];
     foreach ($this->apiGet('places', array_filter([
       'country' => $country,
-      'type' => $type,
+      'type' => $types,
       'filter' => $filter
     ]))->places->item as $item)
     {
