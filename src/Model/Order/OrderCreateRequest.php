@@ -53,7 +53,7 @@ class OrderCreateRequest extends RequestAbstraction
    *
    * @var OrderCreateRequestSource
    */
-  protected $sourceCountry;
+  protected $source;
   /**
    * The protected $sender fields are needed only if the sender door code is required for the parcel sending
    * If the protected $sender fields are not needed, do not send in parameters.
@@ -203,18 +203,18 @@ class OrderCreateRequest extends RequestAbstraction
   /**
    * @return OrderCreateRequestSource
    */
-  public function getSourceCountry(): ?OrderCreateRequestSource
+  public function getSource(): ?OrderCreateRequestSource
   {
-    return $this->sourceCountry;
+    return $this->source;
   }
 
   /**
-   * @param ?OrderCreateRequestSource $sourceCountry
+   * @param ?OrderCreateRequestSource $source
    * @return $this
    */
-  public function setSourceCountry(?OrderCreateRequestSource $sourceCountry): self
+  public function setSource(?OrderCreateRequestSource $source): self
   {
-    $this->sourceCountry = $sourceCountry;
+    $this->source = $source;
     return $this;
   }
 
