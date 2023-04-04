@@ -1,0 +1,31 @@
+{
+    "name": "inkr/smartpost-apiclient",
+    "description": "Itella SmartPost API client",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Indrek Kriisa",
+            "email": "indrek.kriisa@gmail.com"
+        }
+    ],
+    "license": ["proprietary"],
+    "require": {
+        "php": "^7.3 || ^8.0",
+        "phpunit/phpunit": "^9.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "inkr\\SmartPost\\": "src/"
+        }
+    },
+    "require-dev": {
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --bootstrap tests/bootstrap.php tests"
+    }
+}
