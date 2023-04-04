@@ -15,27 +15,28 @@ Initialize client
 
 List places
 
-    foreach ($client->getPlaces('ee', 'apt') as $place)
+    foreach ($client->getPlaces('EE', 'APT') as $place)
     {
         print_r($place);
     }
 
-Get tracking info
-    
-    print_r($client->getTracking(['barcode1', 'barcode2']));
-
 Create a new order
 
-    print_r($client->createOrders([
+    $client->createOrders([
         (new SmartPost\Model\Order\OrderCreateRequest())
             ->setReference('123')
             ->setContent('new shipment')
-            ->setSourceCountry((new OrderCreateRequestSource())->setCountry('ee'))
+            ->setSource((new OrderCreateRequestSource())->setCountry('EE'))
             ->setRecipient((new SmartPost\Model\Order\OrderCreateRequestRecipient())
                 ->setName('John Smith')
                 ->setPhone('55667788')
             )
             ->setDestination((new SmartPost\Model\Order\OrderCreateRequestDestination())
+                ->setCountry('EE')
                 ->setPlaceId('01007225')
             )
-    ]));
+    ]);
+
+Get tracking info
+
+    $client->getTracking(['barcode1', 'barcode2']);
