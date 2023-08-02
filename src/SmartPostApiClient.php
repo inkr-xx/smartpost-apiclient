@@ -115,7 +115,7 @@ class SmartPostApiClient
       $res[] = (new OrderCreateResponse())
         ->setReference($item->reference)
         ->setBarcode($item->barcode)
-        ->setSenderDoorcode($item->doorcode);
+        ->setSenderDoorcode($item->doorcode ?? null);
     }
     return $res;
   }
