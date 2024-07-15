@@ -194,8 +194,6 @@ class SmartPostApiClient
     return $res;
   }
 
-
-
   private function apiGet(string $query, array $params)
   {
     return $this->call(SmartPostApiClientHelper::buildUrl($query, $params), [
@@ -227,10 +225,11 @@ class SmartPostApiClient
     $requestOptions = $requestOptions + [
       CURLOPT_URL => $this->apiConf->getApiUrl() . $url,
       CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_HTTPHEADER => array_filter([
-          $this->apiConf->getAuthKey() ? sprintf('Authorization: %s', $this->apiConf->getAuthKey()) : null,
-          $this->apiConf->getGatewaySecret() ? sprintf('X-Gateway-Secret: %s', $this->apiConf->getGatewaySecret()) : null,
-          'Content-Type: application/json'
+      CURLOPT_HTTPHEADER => array_filter([
+        $this->apiConf->getAuthKey() ? sprintf('Authorization: %s', $this->apiConf->getAuthKey()) : null,
+        $this->apiConf->getGatewaySecret() ? sprintf('X-Gateway-Secret: %s', $this->apiConf->getGatewaySecret()) : null,
+        'Content-Type: application/json',
+        'User-Agent: inkr/smartpost-apiclient',
       ])
     ];
 
@@ -246,8 +245,6 @@ class SmartPostApiClient
         throw new SmartPostApiClientException('Invalid JSON response');
       }
     }
-
-//    print_r($res);
 
     switch ($curlInfo['http_code'])
     {
