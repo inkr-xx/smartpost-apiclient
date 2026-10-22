@@ -7,18 +7,11 @@ class SmartPostApiClientConf
 {
   const API_URL = 'https://gateway.posti.fi/smartpost/api/ext/v1/';
 
-  /**
-   * @var string
-   */
-  private $authKey;
-  /**
-   * @var string
-   */
-  private $gatewaySecret;
-  /**
-   * @var string
-   */
-  private $apiUrl;
+  private ?string $authKey = null;
+
+  private ?string $gatewaySecret = null;
+
+  private ?string $apiUrl = null;
 
   /**
    * @return string

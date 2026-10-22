@@ -6,7 +6,7 @@ use Exception;
 
 class SmartPostApiClientException extends Exception
 {
-  public function __construct(string $message = null, $code = null)
+  public function __construct(?string $message = null, ?int $code = null)
   {
     parent::__construct($message ?: 'API exception', $code ?? 400);
   }

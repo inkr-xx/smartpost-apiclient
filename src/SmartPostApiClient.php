@@ -2,6 +2,7 @@
 
 namespace inkr\SmartPost;
 
+use CurlHandle;
 use inkr\SmartPost\Model\CodPayment\CodPaymentResponse;
 use inkr\SmartPost\Model\CourierVisitTime\CourierVisitTimeResponse;
 use inkr\SmartPost\Model\Order\OrderCreateRequest;
@@ -13,16 +14,9 @@ use inkr\SmartPost\Model\Exception\SmartPostApiClientExceptionUnauthorized;
 
 class SmartPostApiClient
 {
-  /**
-   * @var SmartPostApiClientConf
-   */
-  private $apiConf;
-  /**
-   * Reusable handler
-   *
-   * @var resource
-   */
-  private $curlHandle;
+  private SmartPostApiClientConf $apiConf;
+
+  private ?CurlHandle $curlHandle = null;
 
   /**
    * @param SmartPostApiClientConf $conf
@@ -38,7 +32,7 @@ class SmartPostApiClient
    * @param ?string $filter
    * @return PlaceResponse[]
    */
-  public function getPlaces(string $country, array $types = [], string $filter = null): array
+  public function getPlaces(string $country, array $types = [], ?string $filter = null): array
   {
     $res = [];
     foreach ($this->apiGet('places', array_filter([
@@ -76,7 +70,7 @@ class SmartPostApiClient
    * @param string|null $type
    * @return CourierVisitTimeResponse[]
    */
-  public function getCourierVisitTimes(string $placeId = null, string $type = null): array
+  public function getCourierVisitTimes(?string $placeId = null, ?string $type = null): array
   {
     $res = [];
     foreach ($this->apiGet('courier-visit-times', array_filter([
@@ -174,7 +168,7 @@ class SmartPostApiClient
    * @param int|null $getOneDay
    * @return CodPaymentResponse[]
    */
-  public function getCodPayments(string $bankTransactionDate, int $getOneDay = null): array
+  public function getCodPayments(string $bankTransactionDate, ?int $getOneDay = null): array
   {
     $res = [];
     foreach ($this->apiGet('cod-payments', array_filter([
@@ -194,7 +188,7 @@ class SmartPostApiClient
     return $res;
   }
 
-  private function apiGet(string $query, array $params)
+  private function apiGet(string $query, array $params): mixed
   {
     return $this->call(SmartPostApiClientHelper::buildUrl($query, $params), [
         CURLOPT_HTTPGET => true
@@ -202,7 +196,7 @@ class SmartPostApiClient
     );
   }
 
-  private function apiPost(string $query, array $params, string $body)
+  private function apiPost(string $query, array $params, string $body): mixed
   {
     return $this->call(SmartPostApiClientHelper::buildUrl($query, $params), [
         CURLOPT_POST => true,
@@ -211,15 +205,20 @@ class SmartPostApiClient
     );
   }
 
-  private function call(string $url, $requestOptions)
+  private function call(string $url, array $requestOptions): mixed
   {
-    if (is_resource($this->curlHandle))
+    if ($this->curlHandle instanceof CurlHandle)
     {
       curl_reset($this->curlHandle);
     }
     else
     {
-      $this->curlHandle = curl_init();
+      $handle = curl_init();
+      if ($handle === false)
+      {
+        throw new SmartPostApiClientException('Unable to initialize HTTP client');
+      }
+      $this->curlHandle = $handle;
     }
 
     $requestOptions = $requestOptions + [
